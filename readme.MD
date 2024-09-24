@@ -4,15 +4,15 @@ Machine Learning untuk cek cara penulisan query di CodeIgniter 3 apakah aman ata
 
 ## Cara setup:
 - Buat `virtualenv`
-```
+```sh
 virtualenv venv
 ```
 - Jalankan `virtualenv`
-```
+```sh
 .\venv\Scripts\activate
 ```
 - Install dependencies
-```
+```sh
 pip install -r requirements.txt
 ```
 
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 - Copas model/file dengan query yang aman ke folder `data/clean_queries`
 - Copas model/file dengan query yang tidak aman ke folder `data/unsafe_queries`
 - Jalankan perintah ini di dalam `virtualenv`
-```
+```sh
 python train.py
 ```
 
@@ -29,6 +29,6 @@ python train.py
 - Buka file `run.py`
 - Edit list absolute path di variable `PATHS`
 - Jalankan perintah ini di dalam `virtualenv`
-```
+```sh
 python run.py
 ```
