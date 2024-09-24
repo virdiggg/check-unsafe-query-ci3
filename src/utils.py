@@ -23,19 +23,16 @@ def load_model(filepath):
 
 def extract_queries_from_php(file_content):
     """
-    Extracts lines of code that match $this->db->query or $<variable>->query.
+    Extracts lines of code that match:
+    $<variable>->select(), $<variable>->from(), $<variable>->where(), $<variable>->get(),
+    $<variable>->get_where(), $<variable>->query('CALL'), $<variable>->query('BEGIN')
     """
     import re
 
-    pattern = re.compile(r'->query\((.*?\))', re.IGNORECASE)
+    pattern = re.compile(r'->query\(((\'|\")\w+(\'|\")|)\)', re.IGNORECASE)
     matches = pattern.findall(file_content)
 
     # Check for the presence of result-related methods
-    '''
-    Will match
-    ->select(), ->from(), ->where(), ->get(),
-    ->get_where(), ->query('CALL'), ->query('BEGIN')
-    '''
     result_methods = re.compile(r'^\$[\s\S]+->((select|from|where|get|get_where)\(((\'|\")\w+m(\'|\")|)\)|query\(((\'|\")(CALL|BEGIN)(\'|\")|)\))', re.IGNORECASE)
     result_matches = result_methods.findall(file_content)
 
