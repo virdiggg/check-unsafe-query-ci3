@@ -11,13 +11,24 @@ def extract_queries_from_php(file_content, model='safe'):
     if (model == 'safe'):
         pattern = re.compile(r'->((?:select|from|where|or_where|like|or_like|get|get_where|group_start|group_end|group_by|join|count_all_results|num_rows)\([^)]*\)|query\(((\'|\")(CALL|BEGIN)(\'|\")|)\))', re.IGNORECASE)
     else:
-        pattern = re.compile(r'->query\(((\'|\")\w+(\'|\")|)\)', re.IGNORECASE)
+        pattern = re.compile(r'->query\([^)]*\)', re.IGNORECASE)
+
     matches = pattern.findall(file_content)
 
-    flattened_matches = [item for sublist in matches for item in sublist if item]
+    arr_matches = []
+    for match in matches:
+        if match:
+            if isinstance(match, str):
+                arr_matches.append(match)
+            else:
+                # match is a tuple, so we need to unpack it
+                for m in match:
+                    # can be empty string
+                    if m:
+                        arr_matches.append(m)
 
-    if flattened_matches:
-        return flattened_matches
+    if arr_matches:
+        return arr_matches
 
     return ""
 

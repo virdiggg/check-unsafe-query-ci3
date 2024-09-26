@@ -6,6 +6,12 @@ class M_apps extends CI_Model {
     private $user = 'apps_to_user';
     private $db;
 
+    function infoSubmodule($endpoint)
+    {
+        $myDB = $this->load->database("default", TRUE);
+        return $myDB->get_where("tbl_submodule", ['url_sub' => $endpoint])->row();
+    }
+
     public function __construct()
     {
         parent::__construct();
