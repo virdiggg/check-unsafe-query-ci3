@@ -1,5 +1,6 @@
 # <root>/run.py
-from src.utils import load_model, check_php_file_for_query
+from src.handler import check_php_file_for_query
+from src.models import load_model
 from src import app
 import os
 from datetime import datetime

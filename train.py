@@ -3,8 +3,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-from src.utils import save_model
-from src.data_preparation import prepare_dataset
+from src.models import save_model
+from src.preparation import prepare_dataset
 import os
 
 def train_model():
@@ -12,6 +12,7 @@ def train_model():
     unsafe_dir = os.path.join('data', 'unsafe_queries')
 
     X, y = prepare_dataset(clean_dir, unsafe_dir)
+    print(X)
 
     vectorizer = CountVectorizer()
     X_vect = vectorizer.fit_transform(X)

@@ -1,12 +1,12 @@
 # src/data_preparation.py
 import os
-from src.utils import extract_queries_from_php
+from src.handler import extract_queries_from_php
 
 def load_php_files(directory, label):
     """
     Loads PHP files from the given directory, extracts queries, and assigns a label.
     Returns a list of extracted queries and corresponding labels.
-    """
+    # """
     files = []
     labels = []
     for filename in os.listdir(directory):
@@ -14,10 +14,12 @@ def load_php_files(directory, label):
         if os.path.isfile(filepath):
             with open(filepath, 'r') as file:
                 content = file.read()
-                queries = extract_queries_from_php(content)
+                queries = extract_queries_from_php(content, 'safe' if label == 0 else 'unsafe')
+
                 if queries:  # Only add non-empty queries
-                    files.append(queries)
-                    labels.append(label)
+                    for q in queries:
+                        files.append(q)
+                        labels.append(label)
     return files, labels
 
 def prepare_dataset(clean_dir, unsafe_dir):
