@@ -1,6 +1,6 @@
 from src import app  # Import the app object
 
-def extract_queries_from_php(file_content, model='safe'):
+def extract_queries_from_php(file_content, model=None):
     """
     Extracts lines of code that match:
     $<variable>->select(), $<variable>->from(), $<variable>->where(), $<variable>->get(),
@@ -10,8 +10,10 @@ def extract_queries_from_php(file_content, model='safe'):
 
     if (model == 'safe'):
         pattern = re.compile(r'->((?:select|from|where|or_where|like|or_like|get|get_where|group_start|group_end|group_by|join|count_all_results|num_rows)\([^)]*\)|query\(((\'|\")(CALL|BEGIN)(\'|\")|)\))', re.IGNORECASE)
-    else:
+    elif (model == 'unsafe'):
         pattern = re.compile(r'->query\([^)]*\)', re.IGNORECASE)
+    else:
+        pattern = re.compile(r'->((?:select|from|where|or_where|like|or_like|get|get_where|group_start|group_end|group_by|join|count_all_results|num_rows|query)\([^)]*\))', re.IGNORECASE)
 
     matches = pattern.findall(file_content)
 
@@ -39,6 +41,8 @@ def check_php_file_for_query(filepath, vectorizer, model):
     with open(filepath, 'r') as file:
         content = file.read()
         queries = extract_queries_from_php(content)
+        if r'approve_action_mr\Approve_action_mr_model' in filepath:
+            app.unsafe_logger.error(queries)
 
         if queries:
             for q in queries:

@@ -12,7 +12,10 @@ def train_model():
     unsafe_dir = os.path.join('data', 'unsafe_queries')
 
     X, y = prepare_dataset(clean_dir, unsafe_dir)
-    print(X)
+
+    # from pprint import pprint as pp
+    # pp(X)
+    # pp(y)
 
     vectorizer = CountVectorizer()
     X_vect = vectorizer.fit_transform(X)

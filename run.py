@@ -33,5 +33,3 @@ for index, p in enumerate(PATHS):
                     file_path = os.path.join(root, file_name)
                     # Check the PHP file
                     result = check_php_file_for_query(file_path, vectorizer, clf)
-
-
